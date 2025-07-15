@@ -59,12 +59,11 @@ def train_model():
     #     log("Pas assez de données pour faire une prédiction.")
 
 
-if __name__ == "__main__":
-    while True:
-        try:
-            print("----- Nouvelle exécution -----")
-            train_model()
-        except Exception as e:
-            print(f"Erreur : {e}")
-            
-        time.sleep(15 * 60)  # 15 minutes
+while True:
+    try:
+        print("----- Nouvelle exécution -----")
+        train_model()
+    except Exception as e:
+        print(f"Erreur : {e}")
+        
+    time.sleep(15 * 60)  # 15 minutes
