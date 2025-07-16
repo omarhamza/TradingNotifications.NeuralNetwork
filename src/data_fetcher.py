@@ -1,6 +1,6 @@
 import requests
 import pandas as pd
-from config import API_URL, SYMBOL, INTERVAL
+from config import API_URL, SYMBOL, TIMEFRAME, MAX_DAYS
 from utils import save_to_csv
 
 def fetch_klines(limit=1000):
