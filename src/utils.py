@@ -1,6 +1,6 @@
 import os
 import glob
-from config import INTERVAL
+from config import TIMEFRAME
 
 def log(msg):
     print(f"[LOG] {msg}")
@@ -18,7 +18,7 @@ def normalize_array(arr):
 def save_to_csv(df, symbol):
     # -------- delete all csv files before create new ones
     delete_csv_files()
-    filename = f"historical_{symbol.replace('/', '')}_{INTERVAL}.csv"
+    filename = f"historical_{symbol.replace('/', '')}_{TIMEFRAME}.csv"
     df.to_csv(filename)
     print(f"✅ Données sauvegardées dans {filename}")
 

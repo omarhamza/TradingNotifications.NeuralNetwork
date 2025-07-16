@@ -1,11 +1,12 @@
 import time
 from data_fetcher import fetch_klines
 from send_telegram_message import notify, buy_notification
+from config import SYMBOL, VERSION
 from train_model import train_model
 from predict import predict
 from utils import log, error
 
-notify(f"✅ *Start running NN V1.1!*")
+notify(f"✅ *Start running NN {VERSION}!*")
 
 # === Pipeline d'entraînement ===
 def run():
