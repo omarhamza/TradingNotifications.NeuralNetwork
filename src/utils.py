@@ -4,6 +4,9 @@ from config import TIMEFRAME
 
 def log(msg):
     print(f"[LOG] {msg}")
+
+def trace(msg):
+    print(f"[TRACE] {msg}")
     
 def error(msg):
     print(f"[ERROR] {msg}")
