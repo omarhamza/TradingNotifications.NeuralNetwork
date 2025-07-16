@@ -1,5 +1,5 @@
 from utils import  normalize_array
-from config import SEQ_LEN, MODEL_PATH
+from config import SEQ_LEN, MODEL_PATH, features
 import numpy as np
 import tensorflow as tf
 
@@ -13,18 +13,19 @@ def create_sequences(data, seq_len):
 
 # === Pipeline d'entraînement ===
 def train_model(df):
-    prices = df["close"].values
-    norm_prices, _, _ = normalize_array(prices)
+    columns = df[features].values
+    norm_features, _, _ = normalize_array(columns)
 
-    X, y = create_sequences(norm_prices, SEQ_LEN)
-    X = X.reshape((X.shape[0], X.shape[1], 1))
+    X, y = create_sequences(norm_features, SEQ_LEN)
+    X = X.reshape((X.shape[0], X.shape[1], X.shape[2]))
 
     print(f"🧠 Entraînement du modèle sur {X.shape[0]} exemples...")
 
     model = tf.keras.Sequential([
-        tf.keras.layers.LSTM(64, input_shape=(SEQ_LEN, 1)),
+        tf.keras.layers.LSTM(64, input_shape=(SEQ_LEN, X.shape[2])),
         tf.keras.layers.Dense(1)
     ])
+
     model.compile(optimizer='adam', loss='mse')
     model.fit(X, y, epochs=10, batch_size=32)
 
