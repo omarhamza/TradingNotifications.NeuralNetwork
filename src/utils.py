@@ -4,6 +4,9 @@ from config import INTERVAL
 
 def log(msg):
     print(f"[LOG] {msg}")
+    
+def error(msg):
+    print(f"[ERROR] {msg}")
 
 def normalize_array(arr):
     min_val = arr.min()

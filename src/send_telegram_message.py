@@ -16,3 +16,6 @@ def notify(message):
         requests.post(url, data=payload)
     except Exception as e:
         print("Erreur envoi Telegram :", e)
+
+def buy_notification(symbol="BTC"):
+    notify(f"Buy {symbol}")
