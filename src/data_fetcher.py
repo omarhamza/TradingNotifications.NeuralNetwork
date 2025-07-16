@@ -1,21 +1,27 @@
-import requests
+import ccxt
 import pandas as pd
-from config import API_URL, SYMBOL, TIMEFRAME, MAX_DAYS
-from utils import save_to_csv
+import time
+from config import SYMBOL, TIMEFRAME, MAX_DAYS
 
-def fetch_klines(limit=1000):
-    url = f"{API_URL}?symbol={SYMBOL}&interval={INTERVAL}&limit={limit}"
-    response = requests.get(url)
-    data = response.json()
-    
-    df = pd.DataFrame(data, columns=[
-        "timestamp", "open", "high", "low", "close", "volume",
-        "close_time", "quote_asset_volume", "num_trades",
-        "taker_buy_base", "taker_buy_quote", "ignore"
-    ])
-    df["close"] = df["close"].astype(float)
 
-    # ---- Save data frame to csv file    
-    save_to_csv(df, SYMBOL)
+def fetch_klines():
+    exchange = ccxt.binance()
+    since = exchange.parse8601((pd.Timestamp.utcnow() - pd.Timedelta(days=MAX_DAYS)).isoformat())
+
+    all_candles = []
+    while True:
+        candles = exchange.fetch_ohlcv(SYMBOL, timeframe=TIMEFRAME, since=since, limit=500)
+        if not candles:
+            break
+        all_candles.extend(candles)
+        since = candles[-1][0] + 1  # next timestamp (avoid duplicates)
+        time.sleep(exchange.rateLimit / 1000)  # respect rate limit
+
+    df = pd.DataFrame(all_candles, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
+    df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
+    df.set_index('timestamp', inplace=True)
+
+    df = df[~df.index.duplicated(keep='last')]
+    df.sort_index(inplace=True)
 
     return df
