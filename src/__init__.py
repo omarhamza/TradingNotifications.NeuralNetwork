@@ -1,7 +1,7 @@
 import time
 from data_fetcher import fetch_klines
 from send_telegram_message import notify, buy_notification
-from config import SYMBOL, VERSION
+from config import SYMBOLS, VERSION, SLEEP_TIME
 from indicators import add_indicators
 from train_model import train_model
 from predict import predict
@@ -11,16 +11,23 @@ notify(f"✅ *Start running NN {VERSION}!*")
 
 # === Pipeline d'entraînement ===
 def run():
-    print("📥 Téléchargement des données depuis Binance...")
-    df = fetch_klines()
-    df = add_indicators(df)
-    
-    save_to_csv(df, SYMBOL)
-    
-    model, X = train_model(df)
+    for symbol in SYMBOLS:
+        try:
+            log(f"📥 Téléchargement des données {symbol} depuis Binance...")
+            df = fetch_klines(symbol)
+            df = add_indicators(df)
+            
+            save_to_csv(df, symbol)
+            
+            model, X = train_model(df)
 
-    if predict(model, X):
-        buy_notification()
+            if predict(model, X):
+                buy_notification(symbol)
+        except Exception as e:
+            error(f"Exception: {e}")
+        finally:
+            time.sleep(60)
+
 
 
 while True:
@@ -30,4 +37,4 @@ while True:
     except Exception as e:
         error(f"Erreur : {e}")
         
-    time.sleep(15 * 60)  # 15 minutes
+    time.sleep(SLEEP_TIME * 60)
