@@ -19,3 +19,6 @@ def notify(message):
 
 def buy_notification(symbol=SYMBOL):
     notify(f"Buy {symbol}")
+
+def sell_notification(symbol=SYMBOL):
+    notify(f"Sell {symbol}")
