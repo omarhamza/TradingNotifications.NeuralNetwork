@@ -1,16 +1,16 @@
 import ccxt
 import pandas as pd
 import time
-from config import SYMBOL, TIMEFRAME, MAX_DAYS
+from config import TIMEFRAME, MAX_DAYS
 
 
-def fetch_klines():
+def fetch_klines(symbol):
     exchange = ccxt.binance()
     since = exchange.parse8601((pd.Timestamp.utcnow() - pd.Timedelta(days=MAX_DAYS)).isoformat())
 
     all_candles = []
     while True:
-        candles = exchange.fetch_ohlcv(SYMBOL, timeframe=TIMEFRAME, since=since, limit=500)
+        candles = exchange.fetch_ohlcv(symbol, timeframe=TIMEFRAME, since=since, limit=500)
         if not candles:
             break
         all_candles.extend(candles)

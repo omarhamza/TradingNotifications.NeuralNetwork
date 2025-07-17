@@ -1,5 +1,5 @@
 # Configuration
-VERSION = 'V1.2'
+VERSION = 'V1.3'
 SYMBOL = 'BTCUSDT'
 SYMBOLS = ['BTC/USDT', 'ETH/USDT', 'SOL/USDT']
 SEQ_LEN = 50
