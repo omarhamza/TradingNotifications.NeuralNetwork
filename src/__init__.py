@@ -22,15 +22,15 @@ def run():
             
             model, X = train_model(df)
 
-            prediction = predict(model, X)
+            prediction, score = predict(model, X)
             if prediction == Prediction.BUY:
-                buy_notification(symbol)
+                buy_notification(symbol, score)
             elif prediction == Prediction.SELL:
-                sell_notification(symbol)
+                sell_notification(symbol, score)
             else:
                 log(f"No action to take.")
         except Exception as e:
-            error(f"Exception: {e}")
+            notify(f"❌❌❌ Erreur globale : {e}")
         finally:
             time.sleep(60)
 
@@ -41,6 +41,6 @@ while True:
         log("----- Nouvelle exécution -----")
         run()
     except Exception as e:
-        error(f"Erreur : {e}")
+        notify(f"❌❌❌ Erreur globale : {e}")
         
     time.sleep(SLEEP_TIME * 60)

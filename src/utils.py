@@ -1,6 +1,7 @@
 import os
 import glob
 from config import TIMEFRAME
+from send_telegram_message import notify
 
 def log(msg):
     print(f"[LOG] {msg}")
@@ -32,4 +33,4 @@ def delete_csv_files():
             os.remove(file)
             print(f"✅ Supprimé : {file}")
         except Exception as e:
-            print(f"❌ Erreur suppression {file} : {e}")
+            notify(f"❌❌❌ Erreur globale : {e}")

@@ -12,5 +12,6 @@ def predict(model, X):
     return (
         Prediction.BUY if prediction_score > 0.6 else
         Prediction.SELL if prediction_score < 0.2 else
-        Prediction.NONE
+        Prediction.NONE, 
+        f"{prediction_score:.2f}"
     )

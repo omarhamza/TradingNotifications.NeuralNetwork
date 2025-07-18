@@ -1,5 +1,5 @@
 import requests
-from config import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID, SYMBOL
+from config import TELEGRAM_TOKEN, TELEGRAM_CHAT_ID
 
 def notify(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
@@ -17,8 +17,12 @@ def notify(message):
     except Exception as e:
         print("Erreur envoi Telegram :", e)
 
-def buy_notification(symbol=SYMBOL):
-    notify(f"Buy {symbol}")
+def buy_notification(symbol, score):
+    notify(f"""🚀 *Signal d'achat détecté !*
+Il est peut-être temps d'acheter *{symbol}*
+Score: {score} !""")
 
-def sell_notification(symbol=SYMBOL):
-    notify(f"Sell {symbol}")
+def sell_notification(symbol, score):
+    notify(f"""📉🔥 *Signal de vente détecté !*
+Il est peut-être temps de vendre *{symbol}*
+Score: {score} !""")
