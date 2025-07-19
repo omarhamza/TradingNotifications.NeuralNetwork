@@ -2,7 +2,6 @@
 VERSION = 'V1.4.0'
 SYMBOLS = ['BTC/USDT', 'ETH/USDT', 'SOL/USDT', 'XRP/USDT']
 SEQ_LEN = 50
-SLEEP_TIME = 15
 MAX_DAYS=365
 API_URL = "https://api.binance.com/api/v3/klines"
 TELEGRAM_TOKEN = ""
