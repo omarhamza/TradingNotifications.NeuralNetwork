@@ -12,12 +12,6 @@ def trace(msg):
 def error(msg):
     print(f"[ERROR] {msg}")
 
-def normalize_array(arr):
-    min_val = arr.min()
-    max_val = arr.max()
-    norm = (arr - min_val) / (max_val - min_val)
-    return norm, min_val, max_val
-
 # ---------------------- Sauvegarder dans un CSV ---------------------- #
 def save_to_csv(df, symbol):
     # -------- delete all csv files before create new ones

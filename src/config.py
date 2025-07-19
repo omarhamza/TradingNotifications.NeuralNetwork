@@ -1,7 +1,7 @@
 # Configuration
-VERSION = 'V1.4.0'
+VERSION = 'V1.4.1'
 SYMBOLS = ['BTC/USDT', 'ETH/USDT', 'SOL/USDT', 'XRP/USDT']
-SEQ_LEN = 50
+SEQ_LEN = 60
 MAX_DAYS=365
 API_URL = "https://api.binance.com/api/v3/klines"
 TELEGRAM_TOKEN = "7706670085:AAGRMve7EuhFo1i8C2U22JdNPyGyvjN4-N8"
@@ -9,6 +9,8 @@ TELEGRAM_CHAT_ID = "7664939619"
 
 TIMEFRAME = '1h'
 MODEL_PATH = "crypto_model.keras"
+SCALER_X_PATH = "scaler_X.pkl"
+SCALER_Y_PATH = "scaler_Y.pkl"
 
 features = [
     'rsi', 'rsi_delta', 'macd', 'macd_signal',
