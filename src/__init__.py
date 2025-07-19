@@ -6,9 +6,7 @@ from indicators import add_indicators
 from entities.Prediction import Prediction
 from train_model import train_model
 from predict import predict
-from utils import log, error, save_to_csv
-
-notify(f"✅ *Start running NN {VERSION}!*")
+from utils import log, save_to_csv
 
 # === Pipeline d'entraînement ===
 def run():
