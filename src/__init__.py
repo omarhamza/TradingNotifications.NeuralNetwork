@@ -1,7 +1,7 @@
 import time
 from data_fetcher import fetch_klines
 from send_telegram_message import notify, buy_notification, sell_notification
-from config import SYMBOLS, VERSION, SLEEP_TIME
+from config import SYMBOLS, VERSION
 from indicators import add_indicators
 from entities.Prediction import Prediction
 from train_model import train_model
@@ -34,13 +34,8 @@ def run():
         finally:
             time.sleep(60)
 
-
-
-while True:
-    try:
-        log("----- Nouvelle exécution -----")
-        run()
-    except Exception as e:
-        notify(f"❌❌❌ Erreur globale : {e}")
-        
-    time.sleep(SLEEP_TIME * 60)
+try:
+    log("----- Nouvelle exécution -----")
+    run()
+except Exception as e:
+    notify(f"❌❌❌ Erreur globale : {e}")
