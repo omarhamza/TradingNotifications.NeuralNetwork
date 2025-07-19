@@ -32,7 +32,7 @@ def run():
         except Exception as e:
             notify(f"❌❌❌ Erreur globale : {e}")
         finally:
-            time.sleep(60)
+            time.sleep(5)
 
 try:
     log("----- Nouvelle exécution -----")

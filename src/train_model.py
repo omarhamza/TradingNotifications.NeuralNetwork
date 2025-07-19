@@ -1,35 +1,45 @@
-from utils import  normalize_array
-from config import SEQ_LEN, MODEL_PATH, features
 import numpy as np
 import tensorflow as tf
+from sklearn.preprocessing import MinMaxScaler
+import joblib
+from config import SEQ_LEN, MODEL_PATH, SCALER_X_PATH, SCALER_Y_PATH, features
 
-# === Fonction pour transformer les données en séquences ===
 def create_sequences(data, seq_len):
     X, y = [], []
     for i in range(len(data) - seq_len):
         X.append(data[i:i + seq_len])
-        y.append(data[i + seq_len])
+        y.append(data[i + seq_len][0])  # Prédit 1re feature (ex: close)
     return np.array(X), np.array(y)
 
-# === Pipeline d'entraînement ===
+# === Entraînement modèle ===
 def train_model(df):
-    columns = df[features].values
-    norm_features, _, _ = normalize_array(columns)
+    raw_features = df[features].values
 
-    X, y = create_sequences(norm_features, SEQ_LEN)
-    X = X.reshape((X.shape[0], X.shape[1], X.shape[2]))
+    scaler_X = MinMaxScaler()
+    features_scaled = scaler_X.fit_transform(raw_features)
 
-    print(f"🧠 Entraînement du modèle sur {X.shape[0]} exemples...")
+    X_seq, y_seq = create_sequences(features_scaled, SEQ_LEN)
 
+    scaler_y = MinMaxScaler()
+    y_scaled = scaler_y.fit_transform(y_seq.reshape(-1, 1)).flatten()
+
+    X_seq = X_seq.reshape((X_seq.shape[0], X_seq.shape[1], X_seq.shape[2]))
+
+
+    print(f"🧠 Entraînement du modèle sur {X_seq.shape[0]} exemples...")
+    
     model = tf.keras.Sequential([
-        tf.keras.layers.LSTM(64, input_shape=(SEQ_LEN, X.shape[2])),
+        tf.keras.layers.LSTM(64, input_shape=(SEQ_LEN, X_seq.shape[2])),
         tf.keras.layers.Dense(1)
     ])
-
     model.compile(optimizer='adam', loss='mse')
-    model.fit(X, y, epochs=10, batch_size=32)
 
+    model.fit(X_seq, y_scaled, epochs=10, batch_size=32)
+
+    # Sauvegardes
     model.save(MODEL_PATH)
-    print(f"✅ Modèle enregistré dans : {MODEL_PATH}")
+    joblib.dump(scaler_X, SCALER_X_PATH)
+    joblib.dump(scaler_y, SCALER_Y_PATH)
 
-    return model, X
+    print("✅ Modèle et scalers sauvegardés.")
+    return model, X_seq
