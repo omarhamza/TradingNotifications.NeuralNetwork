@@ -14,14 +14,13 @@ def error(msg):
 
 # ---------------------- Sauvegarder dans un CSV ---------------------- #
 def save_to_csv(df, symbol):
-    # -------- delete all csv files before create new ones
-    delete_csv_files()
     filename = f"historical_{symbol.replace('/', '')}_{TIMEFRAME}.csv"
     df.to_csv(filename)
     print(f"✅ Données sauvegardées dans {filename}")
 
 # ---------------------- Supprimer tous les fichiers .csv dans le répertoire courant -------------------- #
 def delete_csv_files():
+    log(f"🗑️ Delete all csv files...")
     for file in glob.glob("*.csv"):
         try:
             os.remove(file)
