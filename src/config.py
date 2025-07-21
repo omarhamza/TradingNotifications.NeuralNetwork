@@ -12,8 +12,15 @@ MODEL_PATH = "crypto_model.keras"
 SCALER_X_PATH = "scaler_X.pkl"
 SCALER_Y_PATH = "scaler_Y.pkl"
 
+LIMIT = 1000
+PRED_HOURS = 24
+SCALER_PATH = "eth_scaler.pkl"
+
 features = [
-    'rsi', 'rsi_delta', 'macd', 'macd_signal',
-    'ema_20', 'ema_50', 'bb_high', 'bb_low',
-    'obv', 'volatility', 'stoch_k', 'stoch_d'
+    'close',
+    'rsi', 'rsi_delta',
+    'macd', 'macd_signal', 'ema_20', 'ema_50', 
+    'bb_high', 'bb_low',
+    'obv', 'volatility', 
+    'stoch_k', 'stoch_d'
 ]
