@@ -6,12 +6,15 @@ from indicators import add_indicators
 from entities.Prediction import Prediction
 from train_model import train_model
 from predict import predict
-from utils import log, save_to_csv
+from utils import log, save_to_csv, delete_csv_files
 
 # === Pipeline d'entraînement ===
 def run():
+    delete_csv_files()
+    
     for symbol in SYMBOLS:
         try:
+
             log(f"📥 Téléchargement des données {symbol} depuis Binance...")
             df = fetch_klines(symbol)
             df = add_indicators(df)
