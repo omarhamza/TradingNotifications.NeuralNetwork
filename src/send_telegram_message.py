@@ -28,7 +28,7 @@ Il est peut-être temps de vendre *{symbol}*
 Score: {score} !""")
     
 
-def send_df_via_telegram(df):
+def send_df_via_telegram(df, symbol):
     # Limite le nombre de lignes si besoin
     df_to_send = df[['timestamp', 'predicted_close']].copy()
 
@@ -41,7 +41,9 @@ def send_df_via_telegram(df):
         for _, row in df_to_send.iterrows()
     ]
 
-    message = "📊 *Derniers prix clos ETH/USD* \n\n" + "\n".join(rows)
+    message = f"📊 *Prédiction prix clos {symbol}* \n\n" + "\n".join(rows)
+
+    print(f"📊 *Prédiction prix clos {symbol}* \n\n")
 
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {

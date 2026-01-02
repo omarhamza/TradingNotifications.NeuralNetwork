@@ -21,7 +21,7 @@ def run():
             
             save_to_csv(df, symbol)
             
-            model, X = train_model(df)
+            model, X = train_model(df, symbol)
 
             prediction, score = predict(model, X)
             if prediction == Prediction.BUY:

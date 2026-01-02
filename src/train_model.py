@@ -15,7 +15,7 @@ def create_sequences(data, seq_len):
     return np.array(X), np.array(y)
 
 # === Entraînement modèle ===
-def train_model(df):
+def train_model(df, symbol):
     raw = df[features].values
 
     scaler = MinMaxScaler()
@@ -62,7 +62,7 @@ def train_model(df):
     })
     df_pred['timestamp'] = df_pred['timestamp'].dt.tz_localize('UTC').dt.tz_convert('Etc/GMT-2')
     df_pred.to_csv("eth_predictions.csv", index=False)
-    send_df_via_telegram(df_pred)
+    send_df_via_telegram(df_pred, symbol)
     print("✅ Prédictions enregistrées dans eth_predictions.csv")
 
     # Sauvegardes
